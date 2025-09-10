@@ -4,6 +4,13 @@ import Editor from "./components/Editor";
 import Header from "./components/Header";
 import TodoList from "./components/List";
 
+export type Todo = {
+  id: number;
+  isDone: boolean;
+  content: string;
+  date: number;
+};
+
 const mockData = [
   {
     id: 0,
@@ -26,7 +33,7 @@ const mockData = [
 ];
 
 function App() {
-  const [todos, setTodos] = useState(mockData);
+  const [todos, setTodos] = useState<Todo[]>(mockData);
   const idRef = useRef(3);
   const onCreate = (content: string) => {
     const newTodo = {
@@ -48,7 +55,7 @@ function App() {
       </section>
 
       <section className="flex-3">
-        <TodoList />
+        <TodoList todos={todos} />
       </section>
     </div>
   );
