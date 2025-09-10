@@ -1,2 +1,2 @@
-# nextjs-todo
-Next.js application project - Todo list
+# react-todo
+React application project - Todo list
