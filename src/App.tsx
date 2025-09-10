@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import "./App.css";
 import Editor from "./components/Editor";
 import Header from "./components/Header";
-import TodoList from "./components/List";
+import List from "./components/List";
 
 export type Todo = {
   id: number;
@@ -46,18 +46,28 @@ function App() {
     setTodos([newTodo, ...todos]);
   };
 
+  const onReorder = (dragIndex: number, hoverIndex: number) => {
+    const draggedTodo = todos[dragIndex];
+    const newTodos = [...todos];
+    newTodos.splice(dragIndex, 1);
+    newTodos.splice(hoverIndex, 0, draggedTodo);
+    setTodos(newTodos);
+  };
+
   return (
-    <div className="flex flex-col p-5 gap-3 w-full h-svh border border-amber-300">
-      <Header />
+    <>
+      <div className="flex flex-col p-20 gap-10 w-50px m-auto">
+        <Header />
 
-      <section className="flex-1">
-        <Editor onCreate={onCreate} />
-      </section>
+        <section className="flex-1">
+          <Editor onCreate={onCreate} />
+        </section>
 
-      <section className="flex-3">
-        <TodoList todos={todos} />
-      </section>
-    </div>
+        <section className="flex-3">
+          <List todos={todos} onReorder={onReorder} />
+        </section>
+      </div>
+    </>
   );
 }
 
