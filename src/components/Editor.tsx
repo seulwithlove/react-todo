@@ -26,16 +26,18 @@ export default function Editor({
   };
 
   return (
-    <div className="flex justify-between gap-2">
+    <div className="flex justify-between gap-10">
       <input
         ref={contentRef}
         value={content}
         onKeyDown={onKeydown}
         onChange={onChangeContent}
-        className=" border border-amber-500"
+        className="border-b flex-1 border-amber-300"
         placeholder="what to do?"
       />
-      <button onClick={onSubmit} className="">
+      <button
+        onClick={onSubmit}
+        className="border border-indigo-500 px-4 py-2 rounded-md">
         ✨
       </button>
     </div>
