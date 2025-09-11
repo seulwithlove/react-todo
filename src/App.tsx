@@ -46,6 +46,14 @@ function App() {
     setTodos([newTodo, ...todos]);
   };
 
+  const onUpdate = (targetId: number) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === targetId ? { ...todo, isDone: !todo.isDone } : todo
+      )
+    );
+  };
+
   const onReorder = (dragIndex: number, hoverIndex: number) => {
     const draggedTodo = todos[dragIndex];
     const newTodos = [...todos];
@@ -56,7 +64,7 @@ function App() {
 
   return (
     <>
-      <div className="flex flex-col p-20 gap-10 w-50px m-auto">
+      <div className="flex flex-col p-10 gap-10 w-50px m-auto">
         <Header />
 
         <section className="flex-1">
@@ -64,7 +72,7 @@ function App() {
         </section>
 
         <section className="flex-3">
-          <List todos={todos} onReorder={onReorder} />
+          <List todos={todos} onReorder={onReorder} onUpdate={onUpdate} />
         </section>
       </div>
     </>

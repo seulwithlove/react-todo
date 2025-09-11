@@ -6,6 +6,7 @@ export default function TodoItem({
   content,
   date,
   index,
+  onUpdate,
   onReorder,
 }: {
   id: number;
@@ -13,9 +14,14 @@ export default function TodoItem({
   content: string;
   date: number;
   index: number;
+  onUpdate: (targetId: number) => void;
+
   onReorder: (dragIndex: number, hoverIndex: number) => void;
 }) {
   const [isDragging, setIsDragging] = useState(false);
+  const onChangeCheckbox = () => {
+    onUpdate(id);
+  };
 
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
     setIsDragging(true);
@@ -51,13 +57,13 @@ export default function TodoItem({
       onDragOver={handleDragOver}
       onDrop={handleDrop}>
       <div className="text-gray-400">⋮⋮</div>
-      <input type="checkbox" checked={isDone} />
+      <input type="checkbox" checked={isDone} onChange={onChangeCheckbox} />
       <div className="flex-1">{content}</div>
       <div className="text-gray-500 text-sm">
         {new Date(date).toLocaleDateString()}
       </div>
-      <button className="border border-indigo-500 px-2 py-2 rounded-md cursor-pointer">
-        Delete
+      <button className="text-xs border border-indigo-500 px-2 py-2 rounded-md cursor-pointer">
+        🗑️
       </button>
     </div>
   );
