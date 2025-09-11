@@ -7,6 +7,7 @@ export default function TodoItem({
   date,
   index,
   onUpdate,
+  onDelete,
   onReorder,
 }: {
   id: number;
@@ -15,12 +16,15 @@ export default function TodoItem({
   date: number;
   index: number;
   onUpdate: (targetId: number) => void;
-
+  onDelete: (targetId: number) => void;
   onReorder: (dragIndex: number, hoverIndex: number) => void;
 }) {
   const [isDragging, setIsDragging] = useState(false);
   const onChangeCheckbox = () => {
     onUpdate(id);
+  };
+  const onDeleteItem = () => {
+    onDelete(id);
   };
 
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
@@ -46,6 +50,7 @@ export default function TodoItem({
 
   return (
     <div
+      role="button"
       className={`flex items-center p-3 gap-3 rounded-lg mb-2 cursor-move transition-all ${
         isDragging
           ? "opacity-50 scale-95 bg-gray-500"
@@ -62,7 +67,9 @@ export default function TodoItem({
       <div className="text-gray-500 text-sm">
         {new Date(date).toLocaleDateString()}
       </div>
-      <button className="text-xs border border-indigo-500 px-2 py-2 rounded-md cursor-pointer">
+      <button
+        onClick={onDeleteItem}
+        className="text-xs border border-indigo-500 px-2 py-2 rounded-md cursor-pointer">
         🗑️
       </button>
     </div>

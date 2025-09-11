@@ -4,10 +4,12 @@ import TodoItem from "./TodoItem";
 export default function List({
   todos,
   onUpdate,
+  onDelete,
   onReorder,
 }: {
   todos: Todo[];
   onUpdate: (targetId: number) => void;
+  onDelete: (targetId: number) => void;
   onReorder: (dragIndex: number, hoverIndex: number) => void;
 }) {
   return (
@@ -23,6 +25,7 @@ export default function List({
               {...todo}
               index={index}
               onUpdate={onUpdate}
+              onDelete={onDelete}
               onReorder={onReorder}
             />
           );

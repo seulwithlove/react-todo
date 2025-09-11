@@ -16,19 +16,19 @@ const mockData = [
     id: 0,
     isDone: false,
     content: "Study React!",
-    date: new Date().getTime(),
+    date: Date.now(),
   },
   {
     id: 1,
     isDone: false,
     content: "Study Next.js!",
-    date: new Date().getTime(),
+    date: Date.now(),
   },
   {
     id: 2,
     isDone: false,
     content: "Swim!",
-    date: new Date().getTime(),
+    date: Date.now(),
   },
 ];
 
@@ -40,7 +40,7 @@ function App() {
       id: idRef.current++,
       isDone: false,
       content: content,
-      date: new Date().getTime(),
+      date: Date.now(),
     };
 
     setTodos([newTodo, ...todos]);
@@ -54,6 +54,10 @@ function App() {
     );
   };
 
+  const onDelete = (targetId: number) => {
+    setTodos(todos.filter((todo) => todo.id !== targetId));
+  };
+
   const onReorder = (dragIndex: number, hoverIndex: number) => {
     const draggedTodo = todos[dragIndex];
     const newTodos = [...todos];
@@ -63,19 +67,22 @@ function App() {
   };
 
   return (
-    <>
-      <div className="flex flex-col p-10 gap-10 w-50px m-auto">
-        <Header />
+    <div className="flex flex-col p-10 gap-10 w-50px m-auto">
+      <Header />
 
-        <section className="flex-1">
-          <Editor onCreate={onCreate} />
-        </section>
+      <section className="flex-1">
+        <Editor onCreate={onCreate} />
+      </section>
 
-        <section className="flex-3">
-          <List todos={todos} onReorder={onReorder} onUpdate={onUpdate} />
-        </section>
-      </div>
-    </>
+      <section className="flex-3">
+        <List
+          todos={todos}
+          onReorder={onReorder}
+          onUpdate={onUpdate}
+          onDelete={onDelete}
+        />
+      </section>
+    </div>
   );
 }
 
