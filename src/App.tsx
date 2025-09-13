@@ -46,6 +46,7 @@ export default function App() {
   // 👉 "추가" 버튼을 눌렀을 때 실행되는 함수
   const onSubmit = () => {
     onCreate(content);
+    setContent("");
   };
 
   // 👉 todo 체크박스 상태 반영
@@ -60,11 +61,12 @@ export default function App() {
 
   // 👉 특정 todo를 체크하는 함수 : 상태를 관리
   const onUpdate = (targetId: number) => {
-    setTodos(
-      todos.map((todo) =>
+    const newSort = todos
+      .map((todo) =>
         todo.id === targetId ? { ...todo, isDone: !todo.isDone } : todo
       )
-    );
+      .sort((a, b) => Number(a.isDone) - Number(b.isDone));
+    setTodos(newSort);
   };
 
   // 👉 JSX (화면 렌더링)
@@ -74,8 +76,8 @@ export default function App() {
         <input
           placeholder="What to do?"
           type="text"
-          value={content}
           onChange={onChangeContent}
+          value={content}
         />
         <button onClick={onSubmit}>Add</button>
       </div>
