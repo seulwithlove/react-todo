@@ -1,89 +1,73 @@
 import { useRef, useState } from "react";
-import "./App.css";
-import Editor from "./components/Editor";
-import Header from "./components/Header";
-import List from "./components/List";
-
-export type Todo = {
-  id: number;
-  isDone: boolean;
-  content: string;
-  date: number;
-};
 
 const mockData = [
   {
     id: 0,
+    content: "Swim",
     isDone: false,
-    content: "Study React!",
-    date: Date.now(),
   },
   {
     id: 1,
+    content: "Study",
     isDone: false,
-    content: "Study Next.js!",
-    date: Date.now(),
-  },
-  {
-    id: 2,
-    isDone: false,
-    content: "Swim!",
-    date: Date.now(),
   },
 ];
+export default function App() {
+  // 전체 투두 상태 관리
+  const [todos, setTodos] = useState(mockData);
 
-function App() {
-  const [todos, setTodos] = useState<Todo[]>(mockData);
-  const idRef = useRef(3);
+  // input으로 입력받은 투두 관리
+  const [content, setContent] = useState("");
+
+  const idRef = useRef(2);
+
+  // input창
+  const onChangeContent = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setContent(e.target.value);
+  };
+
+  // 투두 생성
   const onCreate = (content: string) => {
     const newTodo = {
       id: idRef.current++,
       isDone: false,
       content: content,
-      date: Date.now(),
     };
 
-    setTodos([newTodo, ...todos]);
+    setTodos((prev) => [newTodo, ...prev]);
   };
 
-  const onUpdate = (targetId: number) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === targetId ? { ...todo, isDone: !todo.isDone } : todo
-      )
-    );
+  // 추가 버튼을 누르면 setTodo에 새로운 투두 추가
+  const onSubmit = () => {
+    onCreate(content);
+    setContent("");
   };
 
+  // 삭제 버튼을 누르면 todo 리스트에서 필터링
   const onDelete = (targetId: number) => {
     setTodos(todos.filter((todo) => todo.id !== targetId));
   };
 
-  const onReorder = (dragIndex: number, hoverIndex: number) => {
-    const draggedTodo = todos[dragIndex];
-    const newTodos = [...todos];
-    newTodos.splice(dragIndex, 1);
-    newTodos.splice(hoverIndex, 0, draggedTodo);
-    setTodos(newTodos);
-  };
-
   return (
-    <div className="flex flex-col p-10 gap-10 w-50px m-auto">
-      <Header />
-
-      <section className="flex-1">
-        <Editor onCreate={onCreate} />
-      </section>
-
-      <section className="flex-3">
-        <List
-          todos={todos}
-          onReorder={onReorder}
-          onUpdate={onUpdate}
-          onDelete={onDelete}
+    <div className="flex flex-col items-center justify-center h-100">
+      <div className="">
+        <input
+          onChange={onChangeContent}
+          value={content}
+          placeholder="what r u doing?"
         />
-      </section>
+        <button onClick={onSubmit} className="bg-blue-600 w-10">
+          +
+        </button>
+      </div>
+      <div>
+        {todos.map((todo) => (
+          <div key={todo.id} className="flex gap-10">
+            {todo.content}
+            <button onClick={() => onDelete(todo.id)}>Delete</button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
-
-export default App;

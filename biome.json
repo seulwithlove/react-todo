@@ -1,4 +1,14 @@
 {
+  "$schema": "https://biomejs.dev/schemas/1.7.0/schema.json",
+  "files": {
+    "include": ["src"],
+    "ignore": ["node_modules"]
+  },
+  "javascript": {
+    "parser": {
+      "jsx": true
+    }
+  },
   "linter": {
     "rules": {
       "a11y": {
